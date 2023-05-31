@@ -19,7 +19,7 @@ public class WarehouseOntology extends Ontology {
     public static final String ONTOLOGY_NAME = "Warehouse-Multi-Robot-Ontology";
     // VOCABULARY
     public static final String INTELLIGENT_AGENT = "IntelligentAgent";
-    public static final String ROBOT = "ROBOT";
+    public static final String MOBILE_ROBOT = "MobileRobot";
     public static final String PHYSICAL_AGENT = "physicalAgent";
     public static final String DIGITAL_AGENT = "digitalAgent";
 
@@ -29,7 +29,7 @@ public class WarehouseOntology extends Ontology {
     public static final String UWB_ID = "uwbID";
     public static final String LOCATION = "location";
     public static final String AID = "aid";
-    public static final String POINT = "point";
+    public static final String BATTERY_LEVEL = "batteryLevel";
 
     // Predicates
     public static final String IS_TWIN = "IS_TWIN";
@@ -58,12 +58,14 @@ public class WarehouseOntology extends Ontology {
         super(ONTOLOGY_NAME, base, new ReflectiveIntrospector());
         try {
             PrimitiveSchema stringSchema = (PrimitiveSchema) getSchema(BasicOntology.STRING);
+            PrimitiveSchema floatSchema = (PrimitiveSchema) getSchema(BasicOntology.FLOAT);
 
-            ConceptSchema robotSchema = new ConceptSchema(ROBOT);
-            robotSchema.add(NAME, stringSchema);
-            robotSchema.add(IP_ADDRESS, stringSchema, ObjectSchema.OPTIONAL);
-            robotSchema.add(UWB_ID, stringSchema, ObjectSchema.OPTIONAL);
-            robotSchema.add(LOCATION, stringSchema, ObjectSchema.OPTIONAL);
+            ConceptSchema robotConceptSchema = new ConceptSchema(MOBILE_ROBOT);
+            robotConceptSchema.add(NAME, stringSchema);
+            robotConceptSchema.add(IP_ADDRESS, stringSchema, ObjectSchema.OPTIONAL);
+            robotConceptSchema.add(UWB_ID, stringSchema, ObjectSchema.OPTIONAL);
+            robotConceptSchema.add(LOCATION, stringSchema, ObjectSchema.OPTIONAL);
+            robotConceptSchema.add(BATTERY_LEVEL, floatSchema, ObjectSchema.OPTIONAL);
             // define intelligent agent schema
             ConceptSchema intelligentAgentSchema = new ConceptSchema(INTELLIGENT_AGENT);
             intelligentAgentSchema.add(NAME, stringSchema, ObjectSchema.OPTIONAL);
@@ -79,9 +81,9 @@ public class WarehouseOntology extends Ontology {
             PredicateSchema istTwinSchema = new PredicateSchema(IS_TWIN);
             istTwinSchema.add(DIGITAL_TWIN, digitalAgentSchema);
             istTwinSchema.add(PHYSICAL_TWIN, physicalAgentSchema);
-            istTwinSchema.add(PHYSICAL_COMPONENT, robotSchema);
+            istTwinSchema.add(PHYSICAL_COMPONENT, robotConceptSchema);
 
-            add(robotSchema, Robot.class);
+            add(robotConceptSchema, MobileRobot.class);
             add(physicalAgentSchema, PhysicalAgent.class);
             add(digitalAgentSchema, DigitalAgent.class);
             add(intelligentAgentSchema, IntelligentAgent.class);
@@ -89,8 +91,8 @@ public class WarehouseOntology extends Ontology {
 
             // Start message action
             AgentActionSchema sendSchema = new AgentActionSchema(START);
-            sendSchema.add(SENDER, physicalAgentSchema);
-            sendSchema.add(RECEIVER, digitalAgentSchema);
+            sendSchema.add(SENDER, digitalAgentSchema);
+            sendSchema.add(RECEIVER, physicalAgentSchema);
             add(sendSchema, Start.class);
 
             // Stop message action
@@ -104,4 +106,6 @@ public class WarehouseOntology extends Ontology {
         }
     }
 }
+
+
 

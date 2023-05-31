@@ -1,59 +1,45 @@
-package warehouse.agent;
+package warehouse.ontology.behaviour;
 
-import jade.content.ContentManager;
-import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
-import jade.content.onto.Ontology;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
-import jade.domain.FIPANames;
-import jade.domain.JADEAgentManagement.JADEManagementOntology;
 import jade.lang.acl.ACLMessage;
 import warehouse.ontology.*;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
+public class SenderBehaviour extends TickerBehaviour {
+    private boolean finished = false;
 
-public class Sender extends Agent {
-    // We handle contents
-    private ContentManager manager = getContentManager();
-    // This agent speaks the SL language
-    private Codec codec = new SLCodec();
-    // This agent complies with the Warehouse ontology
-    private Ontology ontology = WarehouseOntology.getInstance();
+    Agent agent;
+    AID actor;
+    AID reasoningAgent;
 
-    class SenderBehaviour extends TickerBehaviour {
-        private boolean finished = false;
+    public SenderBehaviour(Agent a, long period) {
+        super(a, period);
+        this.agent=a;
+        String name = "DigitalAgent_1";
+        actor = new AID(name, AID.ISLOCALNAME);
+        reasoningAgent = new AID("ReasoningAgent", false);
+    }
 
-        public SenderBehaviour(Agent a, long period) {
-            super(a, period);
-        }
-
-//        public SenderBehaviour(Agent a) {
-//            super(a);
-//        }
-//
-//        public boolean done() {
-//            return finished;
-//        }
-
-        public void onTick() {
+    @Override
+    protected void onTick() {
             try {
-
+                System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh = " + finished);
 
                 System.out.println("myAgent.getAID().getName() = " + myAgent.getAID().getName());
                 // Preparing the message
-                System.out.println("[" + getLocalName() + "] Creating inform message");
+                System.out.println("[" + agent.getLocalName() + "] Creating inform message");
 
                 ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
                 AID receiver = reasoningAgent;
 
-                msg.setSender(getAID());
+                msg.setSender(agent.getAID());
                 msg.addReceiver(receiver);
-                msg.setLanguage(codec.getName());
-                msg.setOntology(ontology.getName());
+                msg.setLanguage(new SLCodec().getName());
+                msg.setOntology(WarehouseOntology.getInstance().getName());
 
                 // Physical agent information
                 PhysicalAgent physicalAgent = new PhysicalAgent();
@@ -78,7 +64,7 @@ public class Sender extends Agent {
                 isTwin.setPhysicalTwin(physicalAgent);
                 isTwin.setPhysicalComponent(robot);
                 // Twinning information
-                manager.fillContent(msg, isTwin);
+                agent.getContentManager().fillContent(msg, isTwin);
 
 //                Start start = new Start();
 //                start.setSender(digitalAgent);
@@ -94,33 +80,13 @@ public class Sender extends Agent {
 //                manager.fillContent(msg, action);
 
                 // Send the message
-                System.out.println("[" + getLocalName() + "] Sending the message...");
-                send(msg);
+                System.out.println("[" + agent.getLocalName() + "] Sending the message...");
+                agent.send(msg);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             finished = true;
-        }
-    }
 
-
-    AID actor;
-    AID reasoningAgent;
-    protected void setup() {
-
-        String name = "DigitalAgent_1";
-        actor = new AID(name, AID.ISLOCALNAME);
-        reasoningAgent = new AID("ReasoningAgent", false);
-        manager.registerLanguage(codec);
-        manager.registerOntology(ontology);
-
-        //Register the SL content language
-        manager.registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL);
-
-        //Register the mobility ontology
-        manager.registerOntology(JADEManagementOntology.getInstance());
-
-        addBehaviour(new SenderBehaviour(this, 3000));
     }
 }

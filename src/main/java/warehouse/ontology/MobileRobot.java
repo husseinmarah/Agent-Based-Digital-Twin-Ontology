@@ -7,11 +7,12 @@ import java.awt.*;
 /**
  @author Hussein Marah
  */
-public class Robot implements Concept {
+public class MobileRobot implements Concept {
     private String name;
     private String ipAddress;
     private String uwbID;
     private String location;
+    private Double batteryLevel;
 
     public String getName() {
         return name;
@@ -43,5 +44,13 @@ public class Robot implements Concept {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Double getBatteryLevel() {
+        return batteryLevel;
+    }
+
+    public void setBatteryLevel(Double batteryLevel) {
+        this.batteryLevel = batteryLevel;
     }
 }

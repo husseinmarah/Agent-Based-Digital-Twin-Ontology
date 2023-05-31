@@ -21,7 +21,7 @@ public class Receiver extends Agent {
     private Codec codec = new LEAPCodec();
     private Ontology ontology = WarehouseOntology.getInstance();
     private IsTwin isTwin = null;
-    private Start send = null;
+    private Start start = null;
 //    private Start send = null;
     class ReceiverBehaviour extends SimpleBehaviour {
         private boolean finished = false;
@@ -53,7 +53,7 @@ public class Receiver extends Agent {
                             else if(contentElement instanceof Action){
                                 // Get the requested action
                                 Action action = (Action) contentElement;
-                                send = (Start) action.getAction();
+                                start = (Start) action.getAction();
                                 break;
                             }
                         default:

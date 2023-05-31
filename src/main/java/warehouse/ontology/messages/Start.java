@@ -5,27 +5,27 @@ import warehouse.ontology.DigitalAgent;
 import warehouse.ontology.PhysicalAgent;
 
 public class Start implements Concept {
-    private PhysicalAgent sender;
-    private DigitalAgent receiver;
+    private DigitalAgent sender;
+    private PhysicalAgent receiver;
     private String message;
 
     public Start() {
         this.message = Message.START.toString();
     }
 
-    public PhysicalAgent getSender() {
+    public DigitalAgent getSender() {
         return sender;
     }
 
-    public void setSender(PhysicalAgent sender) {
+    public void setSender(DigitalAgent sender) {
         this.sender = sender;
     }
 
-    public DigitalAgent getReceiver() {
+    public PhysicalAgent getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(DigitalAgent receiver) {
+    public void setReceiver(PhysicalAgent receiver) {
         this.receiver = receiver;
     }
 
@@ -33,7 +33,7 @@ public class Start implements Concept {
         return message;
     }
 
-    public void setMessage() {
-        this.message = Message.START.toString();
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

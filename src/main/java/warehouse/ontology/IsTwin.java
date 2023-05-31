@@ -7,7 +7,7 @@ import jade.content.Predicate;
 public class IsTwin implements Predicate {
     private DigitalAgent digitalTwin = null;
     private PhysicalAgent physicalTwin = null;
-    private Robot physicalComponent = null;
+    private MobileRobot physicalComponent = null;
 
     public DigitalAgent getDigitalTwin() {
         return digitalTwin;
@@ -25,11 +25,11 @@ public class IsTwin implements Predicate {
         this.physicalTwin = physicalTwin;
     }
 
-    public Robot getPhysicalComponent() {
+    public MobileRobot getPhysicalComponent() {
         return physicalComponent;
     }
 
-    public void setPhysicalComponent(Robot physicalComponent) {
+    public void setPhysicalComponent(MobileRobot physicalComponent) {
         this.physicalComponent = physicalComponent;
     }
 }

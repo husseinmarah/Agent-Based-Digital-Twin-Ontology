@@ -7,6 +7,8 @@ import jade.util.ExtendedProperties;
 import jade.util.leap.Properties;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+import warehouse.robotbattery.BatteryAgent;
+import warehouse.robotbattery.RobotAgent;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -61,10 +63,18 @@ public class Initializer {
         if (containerController != null) {
             AgentController agentController1;
             AgentController agentController2;
+            AgentController agentController3;
 
             try {
-                agentController1 = containerController.createNewAgent("PhysicalAgent_1", Sender.class.getName(), null);
-                agentController2 = containerController.createNewAgent("DigitalAgent_1", Receiver.class.getName(), null);
+//                agentController1 = containerController.createNewAgent("PhysicalAgent_1", SenderA.class.getName(), null);
+//                agentController2 = containerController.createNewAgent("DigitalAgent_1", Receiver.class.getName(), null);
+//                agentController3 = containerController.createNewAgent("ReasoningAgent", Receiver.class.getName(), null);
+//                agentController1.start();
+//                agentController2.start();
+//                agentController3.start();
+                agentController1 = containerController.createNewAgent("RobotAgent", RobotAgent.class.getName(), null);
+                agentController2 = containerController.createNewAgent("BatteryAgent", BatteryAgent.class.getName(), null);
+
                 agentController1.start();
                 agentController2.start();
             } catch (Exception e) {
