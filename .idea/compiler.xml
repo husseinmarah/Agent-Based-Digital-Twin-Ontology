@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Agent_Based_Digital_Twin_Ontology" />
+        <module name="agent-based-digital-twin-ontology" />
       </profile>
     </annotationProcessing>
   </component>
